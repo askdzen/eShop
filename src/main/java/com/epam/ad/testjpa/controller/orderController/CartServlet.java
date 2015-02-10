@@ -4,7 +4,6 @@ import com.epam.ad.testjpa.crud.ItemJPAService;
 import com.epam.ad.testjpa.crud.OrderJPAService;
 import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.crud.UserJPAService;
-import com.epam.ad.testjpa.entity.Order;
 import com.epam.ad.testjpa.entity.OrderItem;
 import com.epam.ad.testjpa.model.Cart;
 import com.epam.ad.testjpa.model.SignIn;
@@ -27,7 +26,7 @@ import java.util.List;
         "deleteFromCart"
 
 })
-public class OrderAddServlet extends HttpServlet {
+public class CartServlet extends HttpServlet {
     @Inject
     Cart cart;
     @Inject
@@ -40,7 +39,6 @@ public class OrderAddServlet extends HttpServlet {
     UserJPAService userJPAService;
     @Inject
     Logger logger;
-
     @Inject
     OrderItem orderItem;
     @Inject
@@ -51,12 +49,8 @@ public class OrderAddServlet extends HttpServlet {
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             int itemId = Integer.parseInt(request.getParameter("itemId"));
             int count = Integer.parseInt(request.getParameter("count"));
-            orderItem = order_itemJPAService.getOrderItemByKey(orderId, itemId);
-            orderItem.setItemQty(count);
-            order_itemJPAService.update(orderItem);
+            order_itemJPAService.updateOrderItemCount(orderId, itemId, count);
             logger.info("Обновление " + orderItem.getOrderId() + " " + orderItem.getItemId());
-            List<OrderItem> orderItemList = order_itemJPAService.getAllByOrder(cart.getOrder().getId());
-            request.setAttribute("orderItemList", orderItemList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
             requestDispatcher.forward(request, response);
         }
@@ -76,10 +70,7 @@ public class OrderAddServlet extends HttpServlet {
         }
         if (request.getServletPath().equals("/goToCart")) {
             if (cart.getOrderItems().size() > 0) {
-
                 logger.info("order id : " + cart.getOrder().getId());
-                List<OrderItem> orderItemList = order_itemJPAService.getAllByOrder(cart.getOrder().getId());
-                request.setAttribute("orderItemList", orderItemList);
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
                 requestDispatcher.forward(request, response);
             } else {
@@ -92,24 +83,15 @@ public class OrderAddServlet extends HttpServlet {
             cart.setSignIn(this.signIn);
             logger.info("cartList size= " + cart.getOrderItems().size());
             if (cart.getOrderItems().size() == 0) {
-
                 cart.addNewOrder();
-
-//                if (cart.unicOrderItem(order.getId(),Integer.parseInt(request.getParameter("id")))){
-//                    cart.addItemInCart(itemJPAService.getById(Integer.parseInt(request.getParameter("id")), "iid"));
-//                    order.setItems(cart.getUserCartList());
-//                    orderJPAService.update(order);
-//                }
-
             }
-//            if (cart.unicOrderItem(order.getId(),Integer.parseInt(request.getParameter("id")))){
+            if (cart.unicOrderItem(Integer.parseInt(request.getParameter("id")))){
 
             cart.addItemInCart(itemJPAService.getById(Integer.parseInt(request.getParameter("id")), "iid"));
             logger.info("Order in ServletCartAdd" + cart.getOrder().getId());
-            cart.getOrder().setItems(cart.getOrderItems());
-            orderJPAService.update(cart.getOrder());
+
             request.setAttribute("cart", "disabled='disabled'");
-//            }
+            }
             request.setAttribute("cartSize", cart.getOrderItems().size());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/welcome.jsp");
             requestDispatcher.forward(request, response);

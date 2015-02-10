@@ -4,7 +4,6 @@ import com.epam.ad.testjpa.crud.OrderJPAService;
 import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.entity.Item;
 import com.epam.ad.testjpa.entity.Order;
-import com.epam.ad.testjpa.entity.OrderItem;
 import com.epam.ad.testjpa.model.Cart;
 import com.epam.ad.testjpa.model.SignIn;
 import org.jboss.logging.Logger;
@@ -34,29 +33,34 @@ public class Logout extends HttpServlet {
     Logger logger;
     @Inject
     Order order;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.info("удаляемый заказ № "+cart.getOrder().getId());
-        List<Item> orderItems = cart.getOrderItems();
-        logger.info("число удаляемых позиций "+orderItems.size());
-        for (Item item : orderItems) {
-            logger.info("удаляемая позиция заказа № "+item.getId() + " ");
-            cart.deleteItemFromCart(item.getId(), cart.getOrder().getId());
+        logger.info("удаляемый заказ № " + cart.getOrder().getId());
+        if (cart.getOrderItems().size() > 0) {
+//            List<Item> orderItems = cart.getOrderItems();
+//            logger.info("число удаляемых позиций " + orderItems.size());
+//            for (Item item : cart.getOrderItems()) {
+//                logger.info("удаляемая позиция заказа № " + item.getId() + " ");
+//                cart.deleteItemFromCart(item.getId(), cart.getOrder().getId());
+
+//            }
+            cart.deleteOrder();
+            cart.removeOrderItems();
         }
-        response.sendRedirect(request.getContextPath());
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       if (!signIn.cartEmpty())
-       {
-           request.setAttribute("cartNoEmpty","В корзине имеется товар");
-           RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
-           requestDispatcher.forward(request, response);
-       }else
-       {
+        if (!signIn.cartEmpty()) {
+            request.setAttribute("cartNoEmpty", "В корзине имеется товар");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
+            requestDispatcher.forward(request, response);
+        } else {
 
-           RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
-           requestDispatcher.forward(request, response);
-       }
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
+            requestDispatcher.forward(request, response);
+        }
 
     }
 }

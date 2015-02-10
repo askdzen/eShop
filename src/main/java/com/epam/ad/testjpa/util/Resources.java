@@ -1,12 +1,11 @@
 package com.epam.ad.testjpa.util;
 
 import com.epam.ad.testjpa.crud.ItemJPAService;
+import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.crud.RoleJPAService;
 import com.epam.ad.testjpa.crud.UserJPAService;
-import com.epam.ad.testjpa.entity.Item;
-import com.epam.ad.testjpa.entity.Order;
-import com.epam.ad.testjpa.entity.Role;
-import com.epam.ad.testjpa.entity.User;
+import com.epam.ad.testjpa.entity.*;
+import com.epam.ad.testjpa.model.Cart;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.inject.Produces;
@@ -24,6 +23,10 @@ public class Resources {
     UserJPAService userJPAService;
     @Inject
     ItemJPAService itemJPAService;
+    @Inject
+    Order_ItemJPAService order_itemJPAService;
+    @Inject
+    Cart cart;
     @Produces
     @PersistenceContext
     public EntityManager em;
@@ -36,6 +39,7 @@ public class Resources {
     public List<User> userList;
     public List<Role> roleList;
     public List<Item> itemList;
+    public List<OrderItem> orderItemList;
     @Produces
     @Named
     public List<Role> getRoleList() {
@@ -54,4 +58,11 @@ public class Resources {
         itemList=itemJPAService.getAll();
         return itemList;
     }
+    @Produces
+    @Named
+    public List<OrderItem> getOrderItemList(){
+        orderItemList=order_itemJPAService.getAllByOrder(cart.getOrder().getId());
+        return orderItemList;
+    }
+
 }

@@ -47,4 +47,9 @@ public class Order_ItemJPAService extends JPAService<OrderItem> implements Seria
        entityManager.remove(orderItem);
    }
 
+    public void updateOrderItemCount(int orderId, int itemId, int count) {
+        orderItem = getOrderItemByKey(orderId, itemId);
+        orderItem.setItemQty(count);
+        update(orderItem);
+    }
 }

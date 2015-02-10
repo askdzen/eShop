@@ -37,20 +37,25 @@ public class Cart implements Serializable {
 
     public void addItemInCart(Item item) {
 
-
         orderItems.add(itemJPAService.getById(item.getId(), "iid"));
+        getOrder().setItems(getOrderItems());
+        service.update(getOrder());
     }
 
-    public boolean unicOrderItem(int orderId, int itemId) {
+    public boolean removeOrderItems(){
+        orderItems.clear();
+        return true;
+    }
+    public boolean unicOrderItem(int itemId) {
 
-        try {
-            order_itemJPAService.getOrderItemByKey(orderId, itemId);
-            logger.info("OrderItem Size" + orderItems.size());
-        } catch (Exception e) {
-            logger.info("order Id " + order.getId());
-            return true;
+        if (orderItems.size() > 0) {
+            for (Item item : orderItems) {
+                if (itemId == item.getId()) {
+                    return false;
+                }
+            }
         }
-        return false;
+        return true;
     }
 
 
@@ -85,6 +90,10 @@ public class Cart implements Serializable {
         return order;
     }
 
+    public boolean deleteOrder(){
+        service.delete(order.getId());
+        return true;
+    }
 
     public void setSignIn(SignIn signIn) {
         this.signIn = signIn;
