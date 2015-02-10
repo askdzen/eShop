@@ -86,10 +86,8 @@ public class CartServlet extends HttpServlet {
                 cart.addNewOrder();
             }
             if (cart.unicOrderItem(Integer.parseInt(request.getParameter("id")))){
-
             cart.addItemInCart(itemJPAService.getById(Integer.parseInt(request.getParameter("id")), "iid"));
             logger.info("Order in ServletCartAdd" + cart.getOrder().getId());
-
             request.setAttribute("cart", "disabled='disabled'");
             }
             request.setAttribute("cartSize", cart.getOrderItems().size());
@@ -102,8 +100,6 @@ public class CartServlet extends HttpServlet {
             logger.info("Item id in the DeleteFromCartServlet " + itemId);
             logger.info("Order id in the DeleteFromCartServlet " + orderId);
             cart.deleteItemFromCart(itemId, orderId);
-            List<OrderItem> orderItemList = order_itemJPAService.getAllByOrder(cart.getOrder().getId());
-            request.setAttribute("orderItemList", orderItemList);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
             requestDispatcher.forward(request, response);
         }

@@ -36,7 +36,7 @@
 </form>
 <hr>
 
-<c:forEach items="${userList}" var="us">
+
     <table border="1" bgcolor="#00bfff">
         <caption>Список пользователей</caption>
         <tr>
@@ -51,6 +51,7 @@
             <th>Заказы Пользователя</th>
             <th>Добавить Заказ</th>
         </tr>
+    <c:forEach items="${userList}" var="us">
     <tr>
         <td>${us.username}</td>
         <td>${us.password}</td>
@@ -71,7 +72,7 @@
             </form>
         </td>
         <td>
-            <form action="userOrderServlet" method="get">
+            <form action="userOrders" method="get">
                 <input type="text" name="id" value="${us.id}" hidden="hidden">
                 <input type="submit" name="orders" value="заказы" >
             </form>
@@ -83,9 +84,10 @@
             </form>
         </td>
     </tr>
+    </c:forEach>
 </table>
 
-    </c:forEach>
+
 
 ${update}
 </body>

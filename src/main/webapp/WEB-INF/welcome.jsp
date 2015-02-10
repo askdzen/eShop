@@ -33,7 +33,7 @@
                 <td>
                     <form action="cartAdd" method="get">
                         <input type="text" name="id" value="${i.id}" hidden="hidden" >
-                        <input type="submit" name="cart" value="купить" ${disabled}>
+                        <input type="submit" name="cart" value="купить" >
                     </form>
                 </td>
 

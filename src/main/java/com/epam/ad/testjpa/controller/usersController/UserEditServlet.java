@@ -49,7 +49,6 @@ public class UserEditServlet extends HttpServlet {
         request.setAttribute("lastName",user.getLastName());
         request.setAttribute("email",user.getEmail());
         request.setAttribute("roles",roleJPAService.getAll());
-//        request.setAttribute("role",user.getRole().getRole());
         request.setAttribute("id",user.getId());
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/userEdit.jsp");
         requestDispatcher.forward(request, response);

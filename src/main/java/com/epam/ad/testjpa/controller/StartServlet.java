@@ -48,10 +48,6 @@ public class StartServlet extends HttpServlet {
                     requestDispatcher.forward(request, response);
                 } else {
 
-//                    if (cart.getUserCartList().size()>0){
-//                        cart.userCartRemove();
-//                    }
-
                     RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/welcome.jsp");
                     requestDispatcher.forward(request, response);
                 }
