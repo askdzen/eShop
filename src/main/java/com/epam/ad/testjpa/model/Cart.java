@@ -92,6 +92,7 @@ public class Cart implements Serializable {
 
     public boolean deleteOrder(){
         service.delete(order.getId());
+        removeOrderItems();
         return true;
     }
 

@@ -26,6 +26,8 @@ public class User {
     private Role role;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Collection<Order> orders;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Collection<Address> addresses;
 
     public int getId() {
         return id;
@@ -91,7 +93,11 @@ public class User {
         this.orders = orders;
     }
 
+    public Collection<Address> getAddresses() {
+        return addresses;
+    }
 
-
-
+    public void setAddresses(Collection<Address> addresses) {
+        this.addresses = addresses;
+    }
 }

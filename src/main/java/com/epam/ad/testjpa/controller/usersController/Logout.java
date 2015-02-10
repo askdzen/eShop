@@ -38,10 +38,10 @@ public class Logout extends HttpServlet {
         logger.info("удаляемый заказ № " + cart.getOrder().getId());
         if (cart.getOrderItems().size() > 0) {
             cart.deleteOrder();
-            cart.removeOrderItems();
+            signIn.initNewUser();
         }
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
-        requestDispatcher.forward(request, response);
+        response.sendRedirect(request.getContextPath());
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,9 +50,9 @@ public class Logout extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
             requestDispatcher.forward(request, response);
         } else {
+           signIn.initNewUser();
+            response.sendRedirect(request.getContextPath());
 
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/index.jsp");
-            requestDispatcher.forward(request, response);
         }
 
     }
