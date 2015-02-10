@@ -75,7 +75,7 @@ public class OrderAddServlet extends HttpServlet {
             requestDispatcher.forward(request, response);
         }
         if (request.getServletPath().equals("/goToCart")) {
-            if (cart.getUserCartList().size() > 0) {
+            if (cart.getOrderItems().size() > 0) {
 
                 logger.info("order id : " + cart.getOrder().getId());
                 List<OrderItem> orderItemList = order_itemJPAService.getAllByOrder(cart.getOrder().getId());
@@ -90,8 +90,8 @@ public class OrderAddServlet extends HttpServlet {
         }
         if (request.getServletPath().equals("/cartAdd")) {
             cart.setSignIn(this.signIn);
-            logger.info("cartList size= " + cart.getUserCartList().size());
-            if (cart.getUserCartList().size() == 0) {
+            logger.info("cartList size= " + cart.getOrderItems().size());
+            if (cart.getOrderItems().size() == 0) {
 
                 cart.addNewOrder();
 
@@ -106,11 +106,11 @@ public class OrderAddServlet extends HttpServlet {
 
             cart.addItemInCart(itemJPAService.getById(Integer.parseInt(request.getParameter("id")), "iid"));
             logger.info("Order in ServletCartAdd" + cart.getOrder().getId());
-            cart.getOrder().setItems(cart.getUserCartList());
+            cart.getOrder().setItems(cart.getOrderItems());
             orderJPAService.update(cart.getOrder());
             request.setAttribute("cart", "disabled='disabled'");
 //            }
-            request.setAttribute("cartSize", cart.getUserCartList().size());
+            request.setAttribute("cartSize", cart.getOrderItems().size());
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/welcome.jsp");
             requestDispatcher.forward(request, response);
         }

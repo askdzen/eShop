@@ -52,7 +52,7 @@ public class SignIn implements Serializable {
     }
 
     public boolean cartEmpty(){
-        if (cart.getUserCartList().size()>0){
+        if (cart.getOrderItems().size()>0){
             return false;
         }else
             return true;
