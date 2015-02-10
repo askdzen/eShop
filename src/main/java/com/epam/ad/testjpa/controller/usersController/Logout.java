@@ -2,10 +2,9 @@ package com.epam.ad.testjpa.controller.usersController;
 
 import com.epam.ad.testjpa.crud.OrderJPAService;
 import com.epam.ad.testjpa.crud.Order_ItemJPAService;
-import com.epam.ad.testjpa.entity.Item;
 import com.epam.ad.testjpa.entity.Order;
-import com.epam.ad.testjpa.model.Cart;
-import com.epam.ad.testjpa.model.SignIn;
+import com.epam.ad.testjpa.model.CartService;
+import com.epam.ad.testjpa.model.SignInService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
@@ -16,15 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 
 @WebServlet("logout")
 public class Logout extends HttpServlet {
     @Inject
-    SignIn signIn;
+    SignInService signInService;
     @Inject
-    Cart cart;
+    CartService cartService;
     @Inject
     Order_ItemJPAService order_itemJPAService;
     @Inject
@@ -35,22 +33,22 @@ public class Logout extends HttpServlet {
     Order order;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.info("удаляемый заказ № " + cart.getOrder().getId());
-        if (cart.getOrderItems().size() > 0) {
-            cart.deleteOrder();
-            signIn.initNewUser();
+        logger.info("удаляемый заказ № " + cartService.getOrder().getId());
+        if (cartService.getOrderItems().size() > 0) {
+            cartService.deleteOrder();
+            signInService.initNewUser();
         }
         response.sendRedirect(request.getContextPath());
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!signIn.cartEmpty()) {
+        if (!signInService.cartEmpty()) {
             request.setAttribute("cartNoEmpty", "В корзине имеется товар");
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/shopcart.jsp");
             requestDispatcher.forward(request, response);
         } else {
-           signIn.initNewUser();
+           signInService.initNewUser();
             response.sendRedirect(request.getContextPath());
 
         }

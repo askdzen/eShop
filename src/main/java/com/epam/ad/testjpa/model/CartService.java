@@ -18,11 +18,11 @@ import java.util.List;
 @Stateful
 @Named
 @SessionScoped
-public class Cart implements Serializable {
+public class CartService implements Serializable {
     @Inject
     Logger logger;
     @Inject
-    SignIn signIn;
+    SignInService signInService;
     @Inject
     Order order;
     @Inject
@@ -84,7 +84,7 @@ public class Cart implements Serializable {
     }
 
     public Order addNewOrder() {
-        order.setUser(signIn.getUser());
+        order.setUser(signInService.getUser());
         order.setId(service.add(order).getId());
         service.add(order);
         return order;
@@ -96,7 +96,7 @@ public class Cart implements Serializable {
         return true;
     }
 
-    public void setSignIn(SignIn signIn) {
-        this.signIn = signIn;
+    public void setSignInService(SignInService signInService) {
+        this.signInService = signInService;
     }
 }

@@ -17,12 +17,12 @@ import java.io.Serializable;
 @Stateful
 @Named
 @SessionScoped
-public class SignIn implements Serializable {
+public class SignInService implements Serializable {
 
     @Inject
     UserJPAService userJPAService;
     @Inject
-    Cart cart;
+    CartService cartService;
     @Inject
     Order order;
 
@@ -52,7 +52,7 @@ public class SignIn implements Serializable {
     }
 
     public boolean cartEmpty(){
-        if (cart.getOrderItems().size()>0){
+        if (cartService.getOrderItems().size()>0){
             return false;
         }else
             return true;

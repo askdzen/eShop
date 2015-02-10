@@ -67,7 +67,7 @@ ${cartNoEmpty}
 
 
 </body>
-<form action="orderAdd" method="post">
+<form action="address.jsf" method="post">
 
     <input type="submit" value="далее">
 </form>

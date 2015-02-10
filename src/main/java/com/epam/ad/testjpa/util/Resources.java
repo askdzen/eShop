@@ -5,7 +5,7 @@ import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.crud.RoleJPAService;
 import com.epam.ad.testjpa.crud.UserJPAService;
 import com.epam.ad.testjpa.entity.*;
-import com.epam.ad.testjpa.model.Cart;
+import com.epam.ad.testjpa.model.CartService;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.inject.Produces;
@@ -26,7 +26,7 @@ public class Resources {
     @Inject
     Order_ItemJPAService order_itemJPAService;
     @Inject
-    Cart cart;
+    CartService cartService;
     @Produces
     @PersistenceContext
     public EntityManager em;
@@ -61,7 +61,7 @@ public class Resources {
     @Produces
     @Named
     public List<OrderItem> getOrderItemList(){
-        orderItemList=order_itemJPAService.getAllByOrder(cart.getOrder().getId());
+        orderItemList=order_itemJPAService.getAllByOrder(cartService.getOrder().getId());
         return orderItemList;
     }
 

@@ -11,6 +11,7 @@ public class Address {
     private String city;
     private String street;
     private String hause;
+    private String phone;
     private int flat;
 
     @ManyToOne
@@ -71,5 +72,13 @@ public class Address {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
