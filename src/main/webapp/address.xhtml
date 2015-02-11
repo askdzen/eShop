@@ -5,7 +5,43 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Hello, world"/>
-</f:view>
+
+<h:head>
+    <title>Ввод адреса доставки</title>
+    <h:outputStylesheet library="css" name="styles.css"/>
+    <h:outputScript library="scripts" name="script.js"/>
+</h:head>
+<h:body>
+
+    <h:graphicImage library="images" name="images.png"/>
+    <h:form>
+        <h:messages styleClass="errorMsg"/>
+        <h:panelGrid columns="2" columnClasses="rightAlign,leftAlign">
+            <h:outputText value="Страна: "/>
+            <h:inputText label="country" value="#{address.country}">
+                <f:validateLength minimum="2" maximum="30"/>
+            </h:inputText>
+            <h:outputText value="Город: "/>
+            <h:inputText label="city" value="#{address.city}"/>
+            <h:outputText value="Улица: "/>
+            <h:inputText label="street" value="#{address.street}"/>
+            <h:outputText value="Дом: "/>
+            <h:inputText label="house" value="#{address.hause}"/>
+            <h:outputText value="Квартира: "/>
+            <h:inputText label="flat" value="#{address.flat}">
+            </h:inputText>
+            <h:outputText value="Телефон : (+7)"/>
+            <h:inputText label="phone" value="#{address.phone}">
+                <f:validateRegex pattern="\d{3}-\d{3}-\d{2}-\d{2}"/>
+            </h:inputText>
+            <h:panelGroup/>
+            <h:commandButton action="#{addressController.saveAddress}" value="Сохранить"/>
+        </h:panelGrid>
+    </h:form>
+    <f:view>
+
+
+    </f:view>
+</h:body>
+
 </html>

@@ -1,7 +1,8 @@
 package com.epam.ad.testjpa.entity;
 
+import javax.faces.bean.ManagedBean;
 import javax.persistence.*;
-
+@ManagedBean
 @Entity
 public class Address {
     @Id

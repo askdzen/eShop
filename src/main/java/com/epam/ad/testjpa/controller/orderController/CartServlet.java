@@ -5,8 +5,8 @@ import com.epam.ad.testjpa.crud.OrderJPAService;
 import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.crud.UserJPAService;
 import com.epam.ad.testjpa.entity.OrderItem;
-import com.epam.ad.testjpa.model.CartService;
-import com.epam.ad.testjpa.model.SignInService;
+import com.epam.ad.testjpa.service.CartService;
+import com.epam.ad.testjpa.service.SignInService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;

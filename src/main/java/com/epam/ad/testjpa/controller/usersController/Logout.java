@@ -3,8 +3,8 @@ package com.epam.ad.testjpa.controller.usersController;
 import com.epam.ad.testjpa.crud.OrderJPAService;
 import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.entity.Order;
-import com.epam.ad.testjpa.model.CartService;
-import com.epam.ad.testjpa.model.SignInService;
+import com.epam.ad.testjpa.service.CartService;
+import com.epam.ad.testjpa.service.SignInService;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
