@@ -50,7 +50,7 @@ public Class<User> getTestClass(){
             System.out.println(runner.getTestClass().getName());
             System.out.println(runner.getTestClass().getCanonicalName());
             System.out.println(runner.getTestClass().getSimpleName());
-            System.out.println(runner.getTestClass().getTypeName());
+
         }
     }
 
