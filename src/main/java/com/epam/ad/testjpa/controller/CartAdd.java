@@ -20,10 +20,10 @@ public class CartAdd {
     ItemJPAService itemJPAService;
     @Inject
     Logger logger;
-    private int itemId;
-    public String cartAdd(){
+
+    public String cartAdd(int itemId){
         String returnValue="welcome";
-        cartService.setSignInService(this.signInService);
+        cartService.setSignInService(cartService.getSignInService());
 
 logger.info("itemId in CartAdd"+itemId );
         if (cartService.getOrderItems().size() == 0) {
@@ -36,11 +36,4 @@ logger.info("itemId in CartAdd"+itemId );
        return returnValue;
     }
 
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
 }

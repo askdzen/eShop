@@ -37,8 +37,8 @@
             <p:column headerText="купить">
                 <h:form>
 
-                    <!--<h:inputText id="itemId" value="#{cartAdd.itemId=item.id}"/>-->
-                    <h:commandButton action="#{cartAdd.cartAdd}" value="купить" />
+
+                    <h:commandButton action="#{cartAdd.cartAdd(item.id)}" value="купить" />
                 </h:form>
 
             </p:column>
