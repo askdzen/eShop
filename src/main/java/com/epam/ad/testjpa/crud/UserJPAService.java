@@ -25,6 +25,7 @@ public class UserJPAService extends JPAService<User> implements Serializable{
     @Inject
     private EntityManager entityManager;
 
+
     public UserJPAService() {
         super(User.class);
     }

@@ -5,13 +5,19 @@ import com.epam.ad.testjpa.crud.UserJPAService;
 import com.epam.ad.testjpa.entity.Order;
 import com.epam.ad.testjpa.entity.Role;
 import com.epam.ad.testjpa.entity.User;
+import com.epam.ad.testjpa.util.MenuView;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 
 @Stateful
@@ -25,9 +31,31 @@ public class SignInService implements Serializable {
     CartService cartService;
     @Inject
     Order order;
+    @Inject
+    Logger logger;
+    @Inject
+    MenuView menuView;
+
+
 
     public User user;
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    public String goToWelcomeOrAdmin(User user){
+        if (signIn(user.getUsername(),user.getPassword())){
+            if (signInAdmin(user.getUsername())){
+                return "admin";
+            }else
+                return "welcome";
+        }
 
+        logger.info("Locale in the addMessage" + menuView.getLocale().getLanguage());
+        ResourceBundle resourceBundle= ResourceBundle.getBundle("i18n.text",menuView.getLocale());
+        addMessage(resourceBundle.getString("index.message.badlogin"), "Вы ввели неправильный логин или пароль");
+        return "index";
+    }
     public boolean signIn(String username, String password) {
         if (userJPAService.usernameIs(username)) {
             user = userJPAService.getUserByUsername(username);

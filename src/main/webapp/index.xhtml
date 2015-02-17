@@ -13,7 +13,37 @@
 
     <h:body>
 <ui:composition template="defaultTemplate.xhtml">
+
+    <ui:define name="contentFlow">
+        <title>#{msg['index.title']}</title>
+        <p:contentFlow value="#{imagesView.images}" var="image">
+            <p:graphicImage name="/images/nature/#{image}" styleClass="content" />
+            <div class="caption">#{image}</div>
+        </p:contentFlow>
+    </ui:define>
+
+
     <ui:define name="body">
+        <p:growl id="growl" />
+
+        <p:panel id="pnl" header="Вход" style="margin-bottom:10px;">
+
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:outputLabel for="username" value="Введите логин: *" />
+                <p:inputText id="username" value="#{signInService.user.username}"  label="Username">
+                    <f:validateLength minimum="2" />
+                </p:inputText>
+                <p:message for="username" />
+
+                <h:outputLabel for="password" value="Введите пароль: *" />
+                <p:inputText id="password" value="#{signInService.user.password}"  label="Password"/>
+                <p:message for="password" />
+            </h:panelGrid>
+
+            <p:commandButton id="signIn" value="Войти" icon="ui-icon-check" style="margin:0" action="#{signInService.goToWelcomeOrAdmin(signInService.user)}" rendered="true" update="growl"/>
+        </p:panel>
+
+        <p:blockUI block="pnl" trigger="signIn" />
 
     </ui:define>
 
