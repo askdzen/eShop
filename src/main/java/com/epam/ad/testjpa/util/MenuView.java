@@ -15,12 +15,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @Named
-@SessionScoped
-@Stateful
+
 public class MenuView implements Serializable{
     @Inject
     Logger logger;
-    private Locale locale;
+
+    @Inject
+    SessionState sessionState;
 
 
     public void addMessage(String summary, String detail) {
@@ -43,56 +44,47 @@ public class MenuView implements Serializable{
     }
 
     public void english() {
-        if (locale==null){
-            locale= FacesContext.getCurrentInstance().getViewRoot().getLocale();
-        }
-       Locale locale=new Locale("en");
-       setLocale(locale);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
-
+//        if (locale==null){
+//            locale= FacesContext.getCurrentInstance().getViewRoot().getLocale();
+//        }
+//       Locale locale=new Locale("en");
+//       setLocale(locale);
+//        FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
+sessionState.changeLocal("en");
 
     }
     public void russian() {
-            if (locale==null){
-            locale= FacesContext.getCurrentInstance().getViewRoot().getLocale();
-        }
-        Locale locale=new Locale("ru");
-        setLocale(locale);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
-
-
-    }
-
-
-
-    public Locale getLocale() {
-        if (locale==null){
-            locale= FacesContext.getCurrentInstance().getViewRoot().getLocale();
-        }
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
-    public String getLanguage() {
-        return getLocale().getLanguage();
-    }
-    public void changeLocale(String lang_code) {
-        this.locale = new Locale(lang_code);
-        try {
-            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-        } catch (NullPointerException e) {
-            logger.error("FacesContext is null. It's ok when we are using jsp :)");
-        }
-        logger.info("Locale was changed to: " + lang_code+" "+locale.getLanguage());
-        //fires entities which list depends of locale:
+//            if (locale==null){
+//            locale= FacesContext.getCurrentInstance().getViewRoot().getLocale();
+//        }
+//        Locale locale=new Locale("ru");
+//        setLocale(locale);
+//        FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
+        sessionState.changeLocal("ru");
 
     }
-    public void setLanguage(String lang) {
-        changeLocale(lang);
-    }
+
+
+
+
+
+//    public String getLanguage() {
+//        return getLocale().getLanguage();
+//    }
+//    public void changeLocale(String lang_code) {
+//        this.locale = new Locale(lang_code);
+//        try {
+//            FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+//        } catch (NullPointerException e) {
+//            logger.error("FacesContext is null. It's ok when we are using jsp :)");
+//        }
+//        logger.info("Locale was changed to: " + lang_code+" "+locale.getLanguage());
+//        //fires entities which list depends of locale:
+//
+//    }
+//    public void setLanguage(String lang) {
+//        changeLocale(lang);
+//    }
 //    public void localeChanged(ValueChangeEvent e) {
 //        changeLocale(e.getNewValue().toString());
 //    }

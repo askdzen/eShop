@@ -6,6 +6,7 @@ import com.epam.ad.testjpa.entity.Order;
 import com.epam.ad.testjpa.entity.Role;
 import com.epam.ad.testjpa.entity.User;
 import com.epam.ad.testjpa.util.MenuView;
+import com.epam.ad.testjpa.util.SessionState;
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +35,7 @@ public class SignInService implements Serializable {
     @Inject
     Logger logger;
     @Inject
-    MenuView menuView;
+    SessionState sessionState;
 
 
 
@@ -46,13 +47,13 @@ public class SignInService implements Serializable {
     public String goToWelcomeOrAdmin(User user){
         if (signIn(user.getUsername(),user.getPassword())){
             if (signInAdmin(user.getUsername())){
-                return "admin";
+                return "admin?faces-redirect=true";
             }else
-                return "welcome";
+                return "welcome?faces-redirect=true";
         }
 
-        logger.info("Locale in the addMessage" + menuView.getLocale().getLanguage());
-        ResourceBundle resourceBundle= ResourceBundle.getBundle("i18n.text",menuView.getLocale());
+        logger.info("Locale in the addMessage" + sessionState.getLocale().getLanguage());
+        ResourceBundle resourceBundle= ResourceBundle.getBundle("i18n.text",sessionState.getLocale());
         addMessage(resourceBundle.getString("index.message.badlogin"), "Вы ввели неправильный логин или пароль");
         return "index";
     }

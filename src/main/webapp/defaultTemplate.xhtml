@@ -8,7 +8,7 @@
 
 
 
-<f:view locale="#{menuView.locale}" >
+<f:view locale="#{sessionState.locale}" >
 <h:head>
 
     <link href="#{resource['gfx/favicon.ico']}" rel="shortcut icon" type="image/x-icon"/>
@@ -68,7 +68,10 @@
 
        <div>
            <ui:insert name="contentFlow">
-
+               <p:contentFlow value="#{imagesView.images}" var="image">
+                   <p:graphicImage name="/images/nature/#{image}" styleClass="content" />
+                   <div class="caption">#{image}</div>
+               </p:contentFlow>
            </ui:insert>
        </div>
        <div>
