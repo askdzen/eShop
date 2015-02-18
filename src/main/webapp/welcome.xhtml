@@ -38,12 +38,12 @@
 
 
 
-                            <h:commandButton action="#{cartAdd.cartAdd(item.id)}" value="купить" >
-                                <f:ajax execute="pay" render="resultPay"/>
+                            <h:commandButton action="#{cartService.cartAdd(item.id)}" value="добавить в корзину" >
+                                <f:ajax execute="buy" render="resultBuy"/>
 
                             </h:commandButton>
 
-                        <h:outputText id="resultPay" value="#{cartAdd.resultPay}"/>
+                        <h:outputText id="resultBuy" value="#{cartService.resultBuy}"/>
                     </p:column>
 
                 </p:dataTable>
@@ -52,7 +52,7 @@
 
             <h:form>
 
-                <p:button outcome="address" value="prime">
+                <p:button outcome="address" value="#{msg['next']}">
 
                 </p:button>
 

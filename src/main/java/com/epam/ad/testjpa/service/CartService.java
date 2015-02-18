@@ -5,15 +5,18 @@ import com.epam.ad.testjpa.crud.OrderJPAService;
 import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.entity.Item;
 import com.epam.ad.testjpa.entity.Order;
+import com.epam.ad.testjpa.util.SessionState;
 import org.jboss.logging.Logger;
 
 import javax.ejb.Stateful;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Stateful
 @Named
@@ -31,6 +34,10 @@ public class CartService implements Serializable {
     ItemJPAService itemJPAService;
     @Inject
     Order_ItemJPAService order_itemJPAService;
+    @Inject
+    SessionState sessionState;
+    @RequestScoped
+    private String resultBuy;
     int itemIndexOf;
 
     private List<Item> orderItems = new ArrayList<>();
@@ -40,6 +47,9 @@ public class CartService implements Serializable {
         orderItems.add(itemJPAService.getById(item.getId(), "iid"));
         getOrder().setItems(getOrderItems());
         service.update(getOrder());
+    }
+    public void addItemInOrderItemList(Item item){
+        orderItems.add(item);
     }
 
     public boolean removeOrderItems(){
@@ -82,9 +92,21 @@ public class CartService implements Serializable {
 
         return this.order;
     }
+    public String buyAll(){
+        String returnValue="address";
+           logger.info("User name: "+getSignInService().getUser().getUsername());
+        if (getOrderItems().size() != 0) {
+            Order newOrder=addNewOrder();
+            newOrder.setItems(getOrderItems());
+            service.update(newOrder);
+            logger.info("Order for User: "+getOrder().getUser().getUsername() +" OrderId: "+getOrder().getId());
+        }
 
+        return returnValue;
+    }
     public Order addNewOrder() {
         order.setUser(signInService.getUser());
+
         order.setId(service.add(order).getId());
         service.add(order);
         return order;
@@ -105,5 +127,41 @@ public class CartService implements Serializable {
 
     public SignInService getSignInService() {
         return signInService;
+    }
+
+    public OrderJPAService getService() {
+        return service;
+    }
+
+    public void setService(OrderJPAService service) {
+        this.service = service;
+    }
+
+
+
+    public String cartAdd(int itemId){
+        String returnValue="welcome";
+//        cartService.setSignInService(cartService.getSignInService());
+//
+//logger.info("itemId in CartAdd"+itemId );
+//        if (cartService.getOrderItems().size() == 0) {
+//            cartService.addNewOrder();
+//        }
+        if (unicOrderItem(itemId)){
+            addItemInOrderItemList(itemJPAService.getById(itemId, "iid"));
+            ResourceBundle resourceBundle= ResourceBundle.getBundle("i18n.text",sessionState.getLocale());
+            setResultBuy(resourceBundle.getString("cart.add"));
+        }
+        return returnValue;
+    }
+
+
+
+    public String getResultBuy() {
+        return resultBuy;
+    }
+
+    public void setResultBuy(String resultBuy) {
+        this.resultBuy = resultBuy;
     }
 }
