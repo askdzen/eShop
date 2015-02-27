@@ -12,45 +12,49 @@
 
 </h:head>
 <h:body>
-<ui:composition template="defaultTemplate.xhtml">
-<ui:define name="contentFlow"/>
-    <ui:define name="body">
-        <p:panel toggleable="true" closable="true"  closeSpeed="2" header="Header" menuTitle="Panel">
-            <h:form>
-        <p:dataTable var="item" value="#{cartService.orderItems}">
+    <ui:composition template="defaultTemplate.xhtml">
+        <ui:define name="contentFlow"/>
+        <ui:define name="body">
+            <p:panel toggleable="true" closable="true" closeSpeed="2" header="Header" menuTitle="Panel">
+                <h:form>
+                    <p:dataTable var="item" value="#{cartService.orderItems}">
 
-            <p:column headerText="Id">
-                <h:outputText id="itemId" value="#{item.id}" />
-            </p:column>
+                        <p:column headerText="Id">
+                            <h:outputText id="itemId" value="#{item.id}"/>
 
-            <p:column headerText="Название">
-                <h:outputText value="#{item.name}" />
-            </p:column>
+                        </p:column>
 
-            <p:column headerText="Цена">
-                <h:outputText value="#{item.cost}" />
-            </p:column>
+                        <p:column headerText="Название">
+                            <h:outputText value="#{item.name}"/>
+                        </p:column>
 
-            <p:column headerText="Количество">
+                        <p:column headerText="Цена">
+                            <h:outputText value="#{item.cost}"/>
+                        </p:column>
 
-                <h:inputText value=""
-                        id="textInput">
-                    <f:ajax render="textVal" event="keyup" />
+                        <p:column headerText="Количество">
+                            <h:inputText value="#{cartService.itemId=item.id}" rendered="true" />
+                            <h:inputText value="#{cartService.itemCount}"
+                                         id="textInput">
+                                <h:inputText value="#{cartService.itemId=item.id}" />
+                                <h:inputText value="#{cartService.itemMapQTY.put(item.id,cartService.itemCount)}"
+                                             rendered="false"/>
+                                <f:ajax render="textVal" event="keyup"/>
 
-                </h:inputText>
-                <h:outputText id="textVal" value=""/>
-                <h:outputText id="mapsize" value=""/>
-                <h:commandButton action="null"
-                        value="подтвердите">
-                    <f:ajax execute="itemId textInput" render="mapsize"/>
+                            </h:inputText>
+                            <h:outputText id="textVal" value="#{cartService.changeCount()}"/>
 
-                </h:commandButton>
-            </p:column>
 
-        </p:dataTable>
-        </h:form>
-        </p:panel>
-    </ui:define>
-</ui:composition>
+                        </p:column>
+
+                    </p:dataTable>
+                   
+                    <p:commandButton action="#{cartService.buyAll()}"  value="купить"/>
+                </h:form>
+
+            </p:panel>
+
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

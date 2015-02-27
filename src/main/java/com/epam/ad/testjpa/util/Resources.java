@@ -16,9 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class Resources {
@@ -36,6 +34,8 @@ public class Resources {
     @PersistenceContext
     public EntityManager em;
     @Produces
+    public Map<Integer, Integer> itemMapQTY = new HashMap<>();
+    @Produces
     public Logger logger(){
         return LoggerFactory.getLogger(this.getClass());
     }
@@ -52,6 +52,8 @@ public class Resources {
     public List<Role> roleList;
     public List<Item> itemList;
     public List<OrderItem> orderItemList;
+
+
     @Produces
     @Named
     public List<Role> getRoleList() {

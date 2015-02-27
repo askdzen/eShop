@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.*;
 
@@ -37,11 +37,52 @@ public class CartService implements Serializable {
     Order_ItemJPAService order_itemJPAService;
     @Inject
     SessionState sessionState;
+    int itemIndexOf;
+    int itemId;
+    int itemCount=1;
+    private List<Item> orderItems = new ArrayList<>();
+
+    @Inject
+    Map<Integer,Integer> itemMapQTY;
+
     @RequestScoped
     private String resultBuy;
-    int itemIndexOf;
 
-    private List<Item> orderItems = new ArrayList<>();
+
+
+    public int changeCount(){
+
+        this.itemMapQTY.put(itemId,itemCount);
+        logger.info("itemQTY size"+itemMapQTY.size()+" and countItem"+itemMapQTY.get(itemId));
+        return itemMapQTY.size();
+    }
+
+    public Map<Integer, Integer> getItemMapQTY() {
+        return itemMapQTY;
+    }
+
+    public void setItemMapQTY(Map<Integer, Integer> itemMapQTY) {
+        this.itemMapQTY = itemMapQTY;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
+    }
+
+
+
 
     public void addItemInCart(Item item) {
 
@@ -49,14 +90,16 @@ public class CartService implements Serializable {
         getOrder().setItems(getOrderItems());
         service.update(getOrder());
     }
-    public void addItemInOrderItemList(Item item){
+
+    public void addItemInOrderItemList(Item item) {
         orderItems.add(item);
     }
 
-    public boolean removeOrderItems(){
+    public boolean removeOrderItems() {
         orderItems.clear();
         return true;
     }
+
     public boolean unicOrderItem(int itemId) {
 
         if (orderItems.size() > 0) {
@@ -93,18 +136,27 @@ public class CartService implements Serializable {
 
         return this.order;
     }
-    public String buyAll(){
-        String returnValue="address";
-           logger.info("User name: "+getSignInService().getUser().getUsername());
+
+    public String buyAll() {
+        String returnValue = "address";
+//        logger.info("User name: " + getSignInService().getUser().getUsername());
         if (getOrderItems().size() != 0) {
-            Order newOrder=addNewOrder();
+            Order newOrder = addNewOrder();
             newOrder.setItems(getOrderItems());
             service.update(newOrder);
-            logger.info("Order for User: "+getOrder().getUser().getUsername() +" OrderId: "+getOrder().getId());
+            for (Map.Entry<Integer, Integer> countMap : itemMapQTY.entrySet()) {
+                order_itemJPAService.updateOrderItemCount(newOrder.getId(), countMap.getKey(),countMap.getValue());
+            logger.info(" itemId"+countMap.getKey()+" count");
+            }
+
+            logger.info("Order for User: " + getOrder().getUser().getUsername() + " OrderId: " + getOrder().getId());
         }
 
         return returnValue;
     }
+
+
+
     public Order addNewOrder() {
         order.setUser(signInService.getUser());
 
@@ -113,13 +165,14 @@ public class CartService implements Serializable {
         return order;
     }
 
-    public boolean deleteOrder(){
+    public boolean deleteOrder() {
         service.delete(order.getId());
         removeOrderItems();
         return true;
     }
-    public void initOrder(){
-        order=new Order();
+
+    public void initOrder() {
+        order = new Order();
     }
 
     public void setSignInService(SignInService signInService) {
@@ -139,23 +192,21 @@ public class CartService implements Serializable {
     }
 
 
-
-    public String cartAdd(int itemId){
-        String returnValue="welcome";
+    public String cartAdd(int itemId) {
+        String returnValue = "welcome";
 //        cartService.setSignInService(cartService.getSignInService());
 //
 //logger.info("itemId in CartAdd"+itemId );
 //        if (cartService.getOrderItems().size() == 0) {
 //            cartService.addNewOrder();
 //        }
-        if (unicOrderItem(itemId)){
+        if (unicOrderItem(itemId)) {
             addItemInOrderItemList(itemJPAService.getById(itemId, "iid"));
-            ResourceBundle resourceBundle= ResourceBundle.getBundle("i18n.text",sessionState.getLocale());
+            ResourceBundle resourceBundle = ResourceBundle.getBundle("i18n.text", sessionState.getLocale());
             setResultBuy(resourceBundle.getString("cart.add"));
         }
         return returnValue;
     }
-
 
 
     public String getResultBuy() {
