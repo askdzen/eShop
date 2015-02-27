@@ -8,51 +8,58 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Welcome</title>
+
     <h:outputStylesheet library="css" name="styles.css"/>
     <h:outputScript library="scripts" name="script.js"/>
 
 
 </h:head>
 <h:body>
-    <p:galleria value="#{imagesView.images}" var="image" panelWidth="500" panelHeight="313" showCaption="true" effect="#{imagesView.effect}" effectSpeed="1000">
+    <ui:composition template="defaultTemplate.xhtml">
 
-        <p:graphicImage name="/images/nature/#{image}"  alt="Image Description for #{image}" title="#{image}"/>
-    </p:galleria>
+        <ui:define name="body">
+            <title>#{msg['index.title']}</title>
 
-    <p:panel toggleable="true" closable="true"  closeSpeed="2" header="Header" menuTitle="Panel">
-        <p:dataTable var="item" value="#{itemList}">
+            <p:panel toggleable="true" closable="true"  closeSpeed="2" header="Header" menuTitle="Panel">
+                <p:dataTable var="item" value="#{itemList}">
 
-            <p:column headerText="Id">
-                <h:outputText value="#{item.id}" />
-            </p:column>
+                    <p:column headerText="Id">
+                        <h:outputText value="#{item.id}" />
+                    </p:column>
 
-            <p:column headerText="Название">
-                <h:outputText value="#{item.name}" />
-            </p:column>
+                    <p:column headerText="Название">
+                        <h:outputText value="#{item.name}" />
+                    </p:column>
 
-            <p:column headerText="Цена">
-                <h:outputText value="#{item.cost}" />
-            </p:column>
-            <p:column headerText="купить">
-                <h:form>
+                    <p:column headerText="Цена">
+                        <h:outputText value="#{item.cost}" />
+                    </p:column>
+                    <p:column headerText="купить">
 
 
-                    <h:commandButton action="#{cartAdd.cartAdd(item.id)}" value="купить" />
-                </h:form>
 
-            </p:column>
+                            <h:commandButton action="#{cartService.cartAdd(item.id)}" value="добавить в корзину" >
+                                <f:ajax execute="buy" render="resultBuy"/>
 
-        </p:dataTable>
-    </p:panel>
-    <h:form>
+                            </h:commandButton>
 
-        <p:button outcome="address" value="prime">
+                        <h:outputText id="resultBuy" value="#{cartService.resultBuy}"/>
+                    </p:column>
 
-        </p:button>
+                </p:dataTable>
 
-    </h:form>
+            </p:panel>
 
+            <h:form>
+
+                <p:button outcome="address" value="#{msg['next']}">
+
+                </p:button>
+
+            </h:form>
+        </ui:define>
+
+</ui:composition>
 
 </h:body>
 </html>

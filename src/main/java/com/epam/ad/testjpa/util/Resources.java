@@ -15,6 +15,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Resources {
     @Inject
@@ -30,6 +32,8 @@ public class Resources {
     @Produces
     @PersistenceContext
     public EntityManager em;
+
+
 
     @Produces
     Logger logger(InjectionPoint injectionPoint){
@@ -64,5 +68,8 @@ public class Resources {
         orderItemList=order_itemJPAService.getAllByOrder(cartService.getOrder().getId());
         return orderItemList;
     }
+
+
+
 
 }
