@@ -16,7 +16,8 @@
         <!--</properties>-->
     <!--</persistence-unit>-->
     <persistence-unit name="PRIMARY" transaction-type="JTA">
-        <jta-data-source>java:jboss/datasources/mySQLTest</jta-data-source>
+        <!--<jta-data-source>java:jboss/datasources/mySQLTest</jta-data-source>-->
+       <jta-data-source>MySQLDataSource</jta-data-source>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>

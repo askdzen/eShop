@@ -2,7 +2,7 @@ package com.epam.ad.testjpa.crud;
 
 import com.epam.ad.testjpa.entity.Role;
 import com.epam.ad.testjpa.entity.User;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;

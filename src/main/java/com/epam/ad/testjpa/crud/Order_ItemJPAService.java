@@ -3,7 +3,7 @@ package com.epam.ad.testjpa.crud;
 
 import com.epam.ad.testjpa.entity.OrderItem;
 import com.epam.ad.testjpa.entity.OrderItemPK;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;

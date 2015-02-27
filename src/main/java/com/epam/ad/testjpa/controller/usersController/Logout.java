@@ -5,7 +5,7 @@ import com.epam.ad.testjpa.crud.Order_ItemJPAService;
 import com.epam.ad.testjpa.entity.Order;
 import com.epam.ad.testjpa.service.CartService;
 import com.epam.ad.testjpa.service.SignInService;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;

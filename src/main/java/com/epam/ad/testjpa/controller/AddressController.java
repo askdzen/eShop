@@ -4,7 +4,8 @@ import com.epam.ad.testjpa.crud.AddressJPAService;
 import com.epam.ad.testjpa.entity.Address;
 import com.epam.ad.testjpa.service.CartService;
 import com.epam.ad.testjpa.service.SignInService;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;

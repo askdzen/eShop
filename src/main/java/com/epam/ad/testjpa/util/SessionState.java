@@ -1,6 +1,6 @@
 package com.epam.ad.testjpa.util;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
