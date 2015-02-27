@@ -63,13 +63,13 @@
 
     </dependencies>
 
-    <!--<build>-->
-        <!--<finalName>test-jpa-jsp.war</finalName>-->
-
-    <!--</build>-->
-
     <build>
-    <finalName>EShop_war_exploded.war</finalName>
+        <finalName>test-jpa-jsp.war</finalName>
 
     </build>
+
+    <!--<build>-->
+    <!--<finalName>EShop_war_exploded.war</finalName>-->
+
+    <!--</build>-->
 </project>
