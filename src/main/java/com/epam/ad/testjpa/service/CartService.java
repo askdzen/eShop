@@ -39,9 +39,79 @@ public class CartService implements Serializable {
     SessionState sessionState;
     @RequestScoped
     private String resultBuy;
+    private String countString;
+    private int countInt;
+    private int itemId;
+    private Map<Integer,Integer> countMap;
+    private int countSize;
     int itemIndexOf;
+    private boolean renderedButton;
 
     private List<Item> orderItems = new ArrayList<>();
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public int getCountSize() {
+        return countSize;
+    }
+
+    public void setCountSize(int countSize) {
+        this.countSize = countSize;
+    }
+
+    public boolean isRenderedButton() {
+        if (countInt<0){
+            return renderedButton=false;
+        }
+        return renderedButton;
+    }
+
+    public void setRenderedButton(boolean isRenderedButton) {
+        this.renderedButton = isRenderedButton;
+    }
+    public void mapSize(){
+
+        countSize=setInMap(itemId,countInt);
+    }
+    public int setInMap(int id, int count){
+        countMap.put(id,count);
+        return countMap.size();
+    }
+
+    public Map<Integer, Integer> getCountMap() {
+        return countMap;
+    }
+
+    public void PutListener(){
+        if(!renderedButton){
+            setRenderedButton(true);
+        }
+    }
+    public void setCountMap(Map<Integer, Integer> countMap) {
+        this.countMap = countMap;
+    }
+
+    public int getCountInt() {
+        return countInt;
+    }
+
+    public void setCountInt(int countInt) {
+        this.countInt = countInt;
+    }
+
+    public String getCountString() {
+        return countString;
+    }
+
+    public void setCountString(String countString) {
+        this.countString = countString;
+    }
 
     public void addItemInCart(Item item) {
 
